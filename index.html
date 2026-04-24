@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sameer | Salesforce Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --teal: #2bba9e;
+    --teal-dark: #1d8a75;
+    --teal-glow: rgba(43,186,158,0.15);
+    --bg: #0d1117;
+    --bg2: #131920;
+    --bg3: #1a2530;
+    --text: #e2eaf0;
+    --muted: #7a9aaa;
+    --card-border: rgba(43,186,158,0.2);
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: var(–font-mono);
+line-height: 1.7;
+overflow-x: hidden;
+}
+
+/* –– SCROLLBAR –– */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(–bg); }
+::-webkit-scrollbar-thumb { background: var(–teal); border-radius: 2px; }
+
+/* –– NAV –– */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 1.2rem 3rem;
+background: rgba(13,17,23,0.85);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid var(–card-border);
+}
+.nav-logo {
+font-family: var(–font-head);
+font-weight: 800;
+font-size: 1.4rem;
+color: var(–teal);
+letter-spacing: -0.5px;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+color: var(–muted);
+text-decoration: none;
+font-size: 0.78rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+transition: color 0.2s;
+}
+.nav-links a:hover { color: var(–teal); }
+
+/* –– HERO –– */
+#hero {
+min-height: 100vh;
+display: flex; align-items: center;
+padding: 7rem 3rem 4rem;
+position: relative;
+overflow: hidden;
+}
+
+.hero-grid {
+position: absolute; inset: 0;
+background-image:
+linear-gradient(rgba(43,186,158,0.04) 1px, transparent 1px),
+linear-gradient(90deg, rgba(43,186,158,0.04) 1px, transparent 1px);
+background-size: 60px 60px;
+pointer-events: none;
+}
+
+.hero-glow {
+position: absolute;
+width: 600px; height: 600px;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(43,186,158,0.12) 0%, transparent 70%);
+top: -100px; right: -100px;
+pointer-events: none;
+}
+
+.hero-content { position: relative; max-width: 900px; }
+
+.hero-tag {
+display: inline-block;
+font-size: 0.72rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–teal);
+border: 1px solid var(–teal);
+padding: 0.3rem 0.8rem;
+border-radius: 2px;
+margin-bottom: 1.5rem;
+animation: fadeUp 0.6s ease both;
+}
+
+h1.hero-name {
+font-family: var(–font-head);
+font-size: clamp(3.5rem, 9vw, 7rem);
+font-weight: 800;
+line-height: 1;
+letter-spacing: -3px;
+color: var(–text);
+animation: fadeUp 0.7s 0.1s ease both;
+}
+
+h1.hero-name span { color: var(–teal); }
+
+.hero-role {
+font-size: clamp(1rem, 2.5vw, 1.3rem);
+color: var(–muted);
+margin-top: 1.2rem;
+animation: fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-desc {
+max-width: 600px;
+color: var(–muted);
+font-size: 0.88rem;
+margin-top: 1.5rem;
+animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.hero-ctas {
+display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+animation: fadeUp 0.7s 0.4s ease both;
+}
+
+.btn-primary {
+background: var(–teal);
+color: #0d1117;
+padding: 0.8rem 2rem;
+border: none; border-radius: 3px;
+font-family: var(–font-mono);
+font-size: 0.78rem;
+font-weight: 700;
+letter-spacing: 1px;
+text-transform: uppercase;
+cursor: pointer;
+text-decoration: none;
+transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(–teal-dark); transform: translateY(-2px); }
+
+.btn-ghost {
+background: transparent;
+color: var(–teal);
+padding: 0.8rem 2rem;
+border: 1px solid var(–teal);
+border-radius: 3px;
+font-family: var(–font-mono);
+font-size: 0.78rem;
+letter-spacing: 1px;
+text-transform: uppercase;
+cursor: pointer;
+text-decoration: none;
+transition: background 0.2s, transform 0.15s;
+}
+.btn-ghost:hover { background: var(–teal-glow); transform: translateY(-2px); }
+
+.hero-stats {
+display: flex; gap: 3rem; margin-top: 4rem;
+animation: fadeUp 0.7s 0.5s ease both;
+}
+.stat-num {
+font-family: var(–font-head);
+font-size: 2.2rem;
+font-weight: 800;
+color: var(–teal);
+line-height: 1;
+}
+.stat-label { font-size: 0.72rem; color: var(–muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 0.3rem; }
+
+/* –– SECTION BASE –– */
+section { padding: 6rem 3rem; }
+.section-label {
+font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+color: var(–teal); margin-bottom: 0.6rem;
+}
+.section-title {
+font-family: var(–font-head);
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: 800; line-height: 1.1; letter-spacing: -1px;
+color: var(–text);
+margin-bottom: 3rem;
+}
+.section-title span { color: var(–teal); }
+
+/* –– ABOUT –– */
+#about { background: var(–bg2); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text p { color: var(–muted); font-size: 0.9rem; margin-bottom: 1.2rem; }
+.about-text strong { color: var(–text); }
+.about-langs { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.lang-pill {
+padding: 0.3rem 0.9rem; border-radius: 20px;
+border: 1px solid var(–card-border);
+font-size: 0.75rem; color: var(–teal);
+background: var(–teal-glow);
+}
+
+.edu-card {
+background: var(–bg3);
+border: 1px solid var(–card-border);
+border-radius: 8px;
+padding: 2rem;
+position: relative;
+overflow: hidden;
+}
+.edu-card::before {
+content: ‘’;
+position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+background: var(–teal);
+}
+.edu-card h3 { font-family: var(–font-head); font-size: 1.1rem; color: var(–text); margin-bottom: 0.3rem; }
+.edu-card .degree { color: var(–muted); font-size: 0.82rem; margin-bottom: 0.5rem; }
+.edu-card .cgpa { color: var(–teal); font-size: 0.85rem; font-weight: 700; }
+.edu-card .dates { color: var(–muted); font-size: 0.75rem; margin-top: 0.8rem; letter-spacing: 1px; }
+
+/* –– EXPERIENCE –– */
+#experience { background: var(–bg); }
+.exp-timeline { position: relative; padding-left: 2rem; }
+.exp-timeline::before {
+content: ‘’;
+position: absolute; left: 0; top: 0; bottom: 0;
+width: 2px;
+background: linear-gradient(to bottom, var(–teal), transparent);
+}
+
+.exp-item {
+position: relative;
+margin-bottom: 3rem;
+padding-left: 2rem;
+opacity: 0;
+transform: translateX(-20px);
+animation: slideIn 0.5s ease forwards;
+}
+.exp-item:nth-child(1) { animation-delay: 0.1s; }
+.exp-item:nth-child(2) { animation-delay: 0.3s; }
+
+.exp-item::before {
+content: ‘’;
+position: absolute;
+left: -2.55rem;
+top: 0.4rem;
+width: 12px; height: 12px;
+border-radius: 50%;
+background: var(–teal);
+box-shadow: 0 0 12px var(–teal);
+}
+
+.exp-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.3rem; }
+.exp-title { font-family: var(–font-head); font-size: 1.1rem; font-weight: 700; color: var(–text); }
+.exp-date { font-size: 0.72rem; color: var(–teal); letter-spacing: 1px; border: 1px solid var(–card-border); padding: 0.2rem 0.6rem; border-radius: 20px; }
+.exp-company { color: var(–muted); font-size: 0.82rem; margin-bottom: 1rem; }
+.exp-bullets { list-style: none; }
+.exp-bullets li { position: relative; padding-left: 1.2rem; color: var(–muted); font-size: 0.83rem; margin-bottom: 0.5rem; }
+.exp-bullets li::before { content: ‘▸’; position: absolute; left: 0; color: var(–teal); }
+
+/* –– SKILLS –– */
+#skills { background: var(–bg2); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.skill-card {
+background: var(–bg3);
+border: 1px solid var(–card-border);
+border-radius: 8px;
+padding: 1.5rem;
+transition: border-color 0.2s, transform 0.2s;
+}
+.skill-card:hover { border-color: var(–teal); transform: translateY(-3px); }
+.skill-card-title { font-family: var(–font-head); font-size: 0.85rem; font-weight: 700; color: var(–teal); margin-bottom: 1rem; letter-spacing: 1px; text-transform: uppercase; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-tag { background: rgba(43,186,158,0.08); border: 1px solid rgba(43,186,158,0.25); color: var(–text); font-size: 0.72rem; padding: 0.25rem 0.6rem; border-radius: 3px; }
+
+/* –– CERTIFICATIONS –– */
+#certs { background: var(–bg); }
+.certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+.cert-card {
+background: var(–bg2);
+border: 1px solid var(–card-border);
+border-radius: 8px;
+padding: 1.4rem 1.6rem;
+display: flex; align-items: center; gap: 1rem;
+transition: border-color 0.2s, background 0.2s;
+}
+.cert-card:hover { border-color: var(–teal); background: var(–teal-glow); }
+.cert-icon { font-size: 1.5rem; flex-shrink: 0; }
+.cert-name { font-size: 0.82rem; color: var(–text); font-weight: 700; }
+.cert-badge { font-size: 0.68rem; color: var(–teal); letter-spacing: 1px; text-transform: uppercase; margin-top: 0.2rem; }
+
+/* –– PROJECTS –– */
+#projects { background: var(–bg2); }
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.project-card {
+background: var(–bg3);
+border: 1px solid var(–card-border);
+border-radius: 8px;
+padding: 2rem;
+transition: border-color 0.2s, transform 0.2s;
+position: relative; overflow: hidden;
+}
+.project-card::after {
+content: ‘’;
+position: absolute; top: 0; right: 0;
+width: 80px; height: 80px;
+background: radial-gradient(circle at top right, rgba(43,186,158,0.15), transparent 70%);
+pointer-events: none;
+}
+.project-card:hover { border-color: var(–teal); transform: translateY(-4px); }
+.project-card h3 { font-family: var(–font-head); font-size: 1.1rem; color: var(–text); margin-bottom: 0.8rem; }
+.project-card p { color: var(–muted); font-size: 0.83rem; line-height: 1.7; }
+.project-tech { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.project-tech span { background: rgba(43,186,158,0.1); color: var(–teal); font-size: 0.68rem; padding: 0.2rem 0.5rem; border-radius: 3px; letter-spacing: 0.5px; }
+
+/* –– CONTACT –– */
+#contact {
+background: var(–bg);
+text-align: center;
+}
+.contact-wrap { max-width: 600px; margin: 0 auto; }
+.contact-wrap p { color: var(–muted); font-size: 0.88rem; margin-bottom: 2.5rem; }
+.contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.contact-link {
+display: flex; align-items: center; gap: 0.6rem;
+color: var(–muted); text-decoration: none;
+font-size: 0.82rem;
+border: 1px solid var(–card-border);
+padding: 0.7rem 1.4rem;
+border-radius: 4px;
+transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.contact-link:hover { border-color: var(–teal); color: var(–teal); background: var(–teal-glow); }
+
+/* –– FOOTER –– */
+footer {
+text-align: center;
+padding: 2rem;
+border-top: 1px solid var(–card-border);
+color: var(–muted);
+font-size: 0.72rem;
+letter-spacing: 1px;
+}
+
+/* –– ANIMATIONS –– */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+to { opacity: 1; transform: translateX(0); }
+}
+
+/* –– RESPONSIVE –– */
+@media (max-width: 768px) {
+nav { padding: 1rem 1.5rem; }
+.nav-links { gap: 1rem; }
+section { padding: 4rem 1.5rem; }
+#hero { padding: 6rem 1.5rem 3rem; }
+.about-grid { grid-template-columns: 1fr; }
+.projects-grid { grid-template-columns: 1fr; }
+.hero-stats { gap: 2rem; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-logo">S/</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">✦ Available for opportunities</div>
+    <h1 class="hero-name">Sameer<span>.</span></h1>
+    <p class="hero-role">App Development Senior Analyst · Salesforce Developer</p>
+    <p class="hero-desc">
+      Building scalable Salesforce solutions with LWC, Apex, and deep integration expertise.
+      4+ years turning complex enterprise requirements into clean, maintainable systems.
+    </p>
+    <div class="hero-ctas">
+      <a href="#experience" class="btn-primary">View Experience</a>
+      <a href="#contact" class="btn-ghost">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years Exp.</div>
+      </div>
+      <div>
+        <div class="stat-num">25+</div>
+        <div class="stat-label">Systems Built</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">SF Certifications</div>
+      </div>
+      <div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Test Cases Written</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+
+<section id="about">
+  <p class="section-label">// who i am</p>
+  <h2 class="section-title">About <span>Me</span></h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a <strong>Salesforce Developer</strong> based in Delhi NCR, India, with a passion for building robust, scalable enterprise applications. My expertise spans the full Salesforce ecosystem — from writing complex Apex triggers and REST integrations to architecting CI/CD pipelines that keep teams shipping reliably.
+      </p>
+      <p>
+        At Accenture, I've grown from an analyst writing test cases to leading a team of 4 developers delivering high-priority projects simultaneously — <strong>zero critical defects</strong> post go-live.
+      </p>
+      <p>
+        Outside of the Salesforce world, I love building Android apps with Kotlin and Firebase, and sharpening my problem-solving edge on LeetCode.
+      </p>
+      <div class="about-langs">
+        <span class="lang-pill">English</span>
+        <span class="lang-pill">Hindi</span>
+      </div>
+    </div>
+    <div>
+      <div class="edu-card">
+        <h3>National Institute of Technology, Agartala</h3>
+        <div class="degree">B.Tech — Electronics & Communication Engineering</div>
+        <div class="cgpa">CGPA: 8.41 / 10</div>
+        <div class="dates">Jul 2017 — Jun 2021</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+
+<section id="experience">
+  <p class="section-label">// where i've worked</p>
+  <h2 class="section-title">Work <span>Experience</span></h2>
+  <div class="exp-timeline">
+
+```
+<div class="exp-item">
+  <div class="exp-header">
+    <span class="exp-title">App Development Senior Analyst</span>
+    <span class="exp-date">Dec 2022 – Present</span>
+  </div>
+  <div class="exp-company">Accenture · Delhi NCR, India</div>
+  <ul class="exp-bullets">
+    <li>Led a team of 4 developers, delivering 2 high-priority client projects simultaneously with 100% defect-free hypercare support for 30 days post-go-live.</li>
+    <li>Designed scalable Salesforce solutions using LWC, Visualforce, Apex, Triggers, and API integrations — improving system performance by 30%.</li>
+    <li>Built the entire dev-to-prod landscape with CI/CD pipelines, cutting deployment time by 25%.</li>
+    <li>Collaborated with SAP and network teams to resolve 100% of critical integration issues before each go-live.</li>
+    <li>Mentored junior developers through code reviews and workshops, boosting team productivity by 40%.</li>
+    <li>Authored comprehensive technical documentation for architecture, integrations, and deployment processes.</li>
+  </ul>
+</div>
+
+<div class="exp-item">
+  <div class="exp-header">
+    <span class="exp-title">App Development Analyst</span>
+    <span class="exp-date">Jul 2021 – Nov 2022</span>
+  </div>
+  <div class="exp-company">Accenture · Delhi NCR, India</div>
+  <ul class="exp-bullets">
+    <li>Developed and enhanced 25+ software systems and custom components with secure, maintainable code.</li>
+    <li>Analyzed 30+ user requirements and designed technical specifications; resolved 100% of identified issues.</li>
+    <li>Created and executed 200+ test cases and 50+ unit tests across UI, backend, integrations, and databases.</li>
+    <li>Managed deliverables for 2+ short-term sprints and 7+ long-term deployments with on-time delivery.</li>
+    <li>Provided Tier 2 support for 2+ critical systems including break-fix, data changes, and dependency tracking.</li>
+  </ul>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+
+<section id="skills">
+  <p class="section-label">// what i work with</p>
+  <h2 class="section-title">Technical <span>Skills</span></h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-title">⚡ Salesforce Platform</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Salesforce CRM</span>
+        <span class="skill-tag">B2B Commerce</span>
+        <span class="skill-tag">Apex</span>
+        <span class="skill-tag">LWC</span>
+        <span class="skill-tag">Visualforce</span>
+        <span class="skill-tag">SOQL</span>
+        <span class="skill-tag">SOSL</span>
+        <span class="skill-tag">Triggers</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">🛠 Dev Tools & Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">Kotlin</span>
+        <span class="skill-tag">Git & GitHub</span>
+        <span class="skill-tag">VS Code</span>
+        <span class="skill-tag">Android</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">🔗 Integration & Testing</div>
+      <div class="skill-tags">
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">SOAP</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">Firebase</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">⚙️ Automation & Methodology</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Azure DevOps</span>
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">SCRUM / Agile</span>
+        <span class="skill-tag">SAFe Agile</span>
+        <span class="skill-tag">DSA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+
+<section id="certs">
+  <p class="section-label">// credentials</p>
+  <h2 class="section-title">Salesforce <span>Certifications</span></h2>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Salesforce Certified Platform Administrator</div>
+        <div class="cert-badge">Salesforce · Verified</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Salesforce Certified Platform Developer</div>
+        <div class="cert-badge">Salesforce · Verified</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Salesforce Certified Platform App Builder</div>
+        <div class="cert-badge">Salesforce · Verified</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Salesforce Certified Sales Cloud Consultant</div>
+        <div class="cert-badge">Salesforce · Verified</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+
+<section id="projects">
+  <p class="section-label">// things i've built</p>
+  <h2 class="section-title">Personal <span>Projects</span></h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <h3>💬 Kotlin Messenger</h3>
+      <p>
+        A real-time Android messaging app with email/password authentication. Built with Kotlin and Firebase as the backend, enabling secure login and live text-based chat between users.
+      </p>
+      <div class="project-tech">
+        <span>Kotlin</span>
+        <span>Android</span>
+        <span>Firebase</span>
+        <span>Auth</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <h3>✅ Kotlin To-Do List</h3>
+      <p>
+        A clean task management Android app for adding reminders, compiling daily tasks, and clearing completed items. Focused on productivity and a smooth, intuitive user experience.
+      </p>
+      <div class="project-tech">
+        <span>Kotlin</span>
+        <span>Android</span>
+        <span>Room DB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+  <div class="contact-wrap">
+    <p class="section-label">// get in touch</p>
+    <h2 class="section-title">Let's <span>Connect</span></h2>
+    <p>
+      Open to exciting Salesforce roles and interesting engineering challenges. 
+      Whether it's a quick question or a collaboration — my inbox is always open.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:sameer.nitag@gmail.com" class="contact-link">
+        <span>✉</span> sameer.nitag@gmail.com
+      </a>
+      <a href="https://github.com/SamOne19" class="contact-link" target="_blank">
+        <span>⌥</span> GitHub
+      </a>
+      <a href="https://leetcode.com/SamOne19/" class="contact-link" target="_blank">
+        <span>⊕</span> LeetCode
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & Built by Sameer · Delhi NCR, India · <span style="color:var(--teal)">2025</span></p>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.animationPlayState = 'running';
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.exp-item').forEach(el => {
+    el.style.animationPlayState = 'paused';
+    observer.observe(el);
+  });
+
+  // Smooth active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--teal)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
